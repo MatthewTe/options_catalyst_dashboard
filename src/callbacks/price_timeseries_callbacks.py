@@ -7,6 +7,7 @@ from dash.exceptions import PreventUpdate
 import plotly.express as px
 
 # Data management packages:
+import sqlite3
 import pandas as pd
 import yfinance as yf
 
@@ -19,6 +20,12 @@ import yfinance as yf
 def generate_historical_price_timeseries(ticker: str):
     """
     """
+    
+    con = sqlite3.connect("test_database.db")
+    cur = con.cursor()
+    cur.execute("CREATE TABLE ticker(name, symbol)")
+    con.commit()
+
     # Lazy way to ensure that callback does not fire when no ticker is selected.
     if ticker is None:
         raise PreventUpdate
